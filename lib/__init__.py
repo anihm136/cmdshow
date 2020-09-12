@@ -6,17 +6,15 @@ import ffmpeg
 from sounds import createSoundEffect
 from utils import getImagesFromPath, orderImages
 from transitions import applyTransitions
-from transitionsLib.crossFade import crossFade
 
 
 def createSlideshow(images_path, frame_duration, transition_duration):
     images_path = Path(images_path)
     assert images_path.is_dir(), "Given path is not a directory"
-    # assert isinstance(frame_duration, int), "Frame duration must be an integer"
-    # assert isinstance(
-    #     transition_duration, int
-    # ), "Transition duration must be an integer"
-    # sorted_images = sortedImages(images_path)
+    assert isinstance(frame_duration, int), "Frame duration must be an integer"
+    assert isinstance(
+        transition_duration, int
+    ), "Transition duration must be an integer"
     FRAMERATE = 5
     frame_images = getImagesFromPath(images_path)
     sorted_images = orderImages(frame_images)
