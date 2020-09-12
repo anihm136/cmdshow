@@ -19,6 +19,7 @@ opencv-python = "*"
 pydub = "*"
 simpleaudio = "*"
 ffmpeg-python = "*"
+imagehash = "*"
 
 [requires]
 python_version = "3.8"

@@ -4,7 +4,7 @@ from pathlib import Path
 
 import ffmpeg
 from sounds import createSoundEffect
-from utils import getImagesFromPath
+from utils import getImagesFromPath, orderImages
 
 
 def createSlideshow(images_path, frame_duration, transition_duration):
@@ -18,9 +18,10 @@ def createSlideshow(images_path, frame_duration, transition_duration):
     # images, transition_frames = applyTransition(sorted_images)
     FRAMERATE = 5
     frame_images = getImagesFromPath(images_path)
-    vid_length = len(frame_images) * frame_duration
+    sorted_images = orderImages(frame_images)
+    vid_length = len(sorted_images) * frame_duration
     im_streams = []
-    for file in frame_images[1:]:
+    for file in sorted_images[1:]:
         im_streams.append(ffmpeg.input(file.as_posix(), t=frame_duration, loop=1))
     createSoundEffect("audio.wav", vid_length)
     for i in range(len(im_streams)):
@@ -34,7 +35,7 @@ def createSlideshow(images_path, frame_duration, transition_duration):
         )
     concat_images = ffmpeg.concat(*im_streams, v=1, a=0)
     audio_strem = ffmpeg.input("new_audio.wav")
-    out = ffmpeg.output(concat_images, audio_strem, "with_audio_2.mp4", t=vid_length, r=FRAMERATE).overwrite_output()
+    out = ffmpeg.output(concat_images, audio_strem, "sorted_images.mp4", t=vid_length, r=FRAMERATE).overwrite_output()
     # out = ffmpeg.output(concat_images, audio_strem, "with_audio.avi").overwrite_output()
     pp(ffmpeg.compile(out))
     # print(" ".join(ffmpeg.compile(out)))
