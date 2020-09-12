@@ -28,16 +28,16 @@ class App:
         self.error = StringVar()
 
         self.blank = Label(self.root, bg="#d2d2c9")
-        self.blank.grid(row = 0, columnspan = 5)
+        self.blank.grid(row = 0, columnspan = 6)
 
         self.welcome = Label(
             self.root, text="Welcome to CMDShow!", background="#d2d2c9"
         )
         self.welcome.config(fg="#6d031c", font=("Comfortaa", 40))
-        self.welcome.grid(row = 1, columnspan = 5)
+        self.welcome.grid(row = 1, columnspan = 6, sticky = "NSEW")
 
         self.blank = Label(self.root, bg="#d2d2c9")
-        self.blank.grid(row = 2, columnspan = 5)
+        self.blank.grid(row = 2, columnspan = 6)
 
         self.imagesButton = Button(
             self.root,
@@ -67,7 +67,7 @@ class App:
             fg="white",
             font=("Comfortaa", 15),
         )
-        self.output.grid(row = 3, column = 24, columnspan = 2)
+        self.output.grid(row = 3, column = 4, columnspan = 2)
         
         self.blank = Label(self.root, bg="#d2d2c9")
         self.blank.grid(row = 4, columnspan = 6)
@@ -86,17 +86,17 @@ class App:
             self.root, text="Frame Duration", background="#d2d2c9"
         )
         self.frame_dur.config(fg="#673e37", font=("Comfortaa", 15))
-        self.frame_dur.grid(row = 5, column = 3, padx = 5)
+        self.frame_dur.grid(row = 5, column = 2, padx = 5)
         
         self.frame_dur_entry = Entry(self.root)
-        self.frame_dur_entry.grid(row = 5, column = 4)
+        self.frame_dur_entry.grid(row = 5, column = 3)
         self.frame_dur_entry.insert(0, "5")
 
         self.transition_type = Label(
             self.root, text="Transition Type", background="#d2d2c9"
         )
         self.transition_type.config(fg="#673e37", font=("Comfortaa", 15))
-        self.transition_type.grid(row = 5, column = 5, padx = 5)
+        self.transition_type.grid(row = 5, column = 4, padx = 5)
 
         self.transition_type_entry = ttk.Combobox(
             self.root, textvariable = self.transitionType)
@@ -142,7 +142,7 @@ class App:
                 "wipebr",
                 "fadegrays"]
         self.transition_type_entry.current(1)
-        self.transition_type_entry.grid(row = 5, column = 6)
+        self.transition_type_entry.grid(row = 5, column = 5, padx = 10)
 
         self.blank = Label(self.root, bg="#d2d2c9")
         self.blank.grid(row = 6, columnspan = 6)
@@ -151,20 +151,20 @@ class App:
             self.root, text="Frame Rate", background="#d2d2c9"
         )
         self.frame_rate.config(fg="#673e37", font=("Comfortaa", 15))
-        self.frame_rate.grid(row = 7, column = 0, columnspan = 2)
+        self.frame_rate.grid(row = 7, column = 0, columnspan = 1)
 
         self.frame_rate_entry = Entry(self.root)
-        self.frame_rate_entry.grid(row = 7, column = 2)
+        self.frame_rate_entry.grid(row = 7, column = 1, columnspan = 2)
         self.frame_rate_entry.insert(0, "10")
 
         self.show_resolution = Label(
             self.root, text="Resolution", background="#d2d2c9"
         )
         self.show_resolution.config(fg="#673e37", font=("Comfortaa", 15))
-        self.show_resolution.grid(row = 7, column = 3, columnspan = 2)
+        self.show_resolution.grid(row = 7, column = 3, columnspan = 1)
         
         self.resolution_entry = Entry(self.root)
-        self.resolution_entry.grid(row = 7, column = 5)
+        self.resolution_entry.grid(row = 7, column = 4, columnspan = 2)
         self.resolution_entry.insert(0, "1920x1080")
 
         self.blank = Label(self.root, bg="#d2d2c9")
@@ -198,6 +198,9 @@ class App:
             font=("Comfortaa", 15),
         )
         self.playButton.grid(row = 10, column = 3, columnspan = 3)
+
+        self.blank = Label(self.root, bg="#d2d2c9")
+        self.blank.grid(row = 11, columnspan = 6)
 
         self.root.mainloop()
 
