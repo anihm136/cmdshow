@@ -18,7 +18,16 @@ def createSlideshow(
     out_file
 ):
     """
+    Main function to create slideshow
 
+    :param images_path Path: Path to directory of images to use
+    :param music_path Path: Path to music file to use
+    :param frame_duration int: Duration for each image to be displayed
+    :param frame_rate int: Frame rate of final video (does not affect duration)
+    :param image_resolution tuple(int,int): Width and height of final video
+    :param transition_duration int: Duration for transition effect to last
+    :param transition_name str: Name of the transition effect to use
+    :param out_file Path: Path of file to output video
     """
     images_path = Path(images_path)
     assert images_path.is_dir(), "Given path is not a directory"

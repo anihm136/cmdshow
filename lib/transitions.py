@@ -6,6 +6,15 @@ import ffmpeg
 def applyTransitions(
     image_paths, image_dimensions, transition_name, frame_duration, transition_duration
 ):
+    """
+    Apply transition effect to given images and return a concatenated input stream with effects applied
+
+    :param image_paths list(Path): List of paths to images to be used
+    :param image_dimensions tuple(int,int): Width and heaght of each image to adjust to
+    :param transition_name str: Name if transition effect to apply
+    :param frame_duration int: Duration for each frame to be displayed
+    :param transition_duration int: Duration for the transition effect to last
+    """
     im_streams = []
     valid_transitions = [
         "fade",
