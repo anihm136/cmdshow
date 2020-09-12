@@ -100,7 +100,8 @@ class App:
 
         self.transition_type_entry = ttk.Combobox(
             self.root, textvariable = self.transitionType)
-        self.transition_type_entry["values"] = ["fade",
+        self.transition_type_entry["values"] = ["random",
+                "fade",
                 "fadeblack",
                 "fadewhite",
                 "distance",			
