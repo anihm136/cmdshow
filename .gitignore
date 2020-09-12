@@ -1,2 +1,4 @@
 .envrc
+.vscode/
+tmp*/
 __pycache__

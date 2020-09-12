@@ -1,7 +1,7 @@
-- [ ] Create a function to return all image files from a directory (utils.py)
+- [x] Create a function to return all image files from a directory (utils.py)
 - [ ] Function to create temp directory, copy the images and resize them to make them similarly sized (utils.py)
-- [ ] Function to sort the images based on some parameter and return in sorted order (utils.py)
+- [x] Function to sort the images based on some parameter and return in sorted order (utils.py)
 - [ ] Create applyTransition function (initially dummy function) to apply transition between successive frames and return two lists - n images and n-1 lists of transition frames between successive images (transitions.py)
 - [ ] Main function to take set of images and transition frames, and write out to video at appropriate frame rates (__init__.py)
-- [ ] Function to take in a music clip and a duration, and adjust the clip to play for the entire duration (loop if shorter, truncate if longer) (sounds.py) [done]
+- [x] Function to take in a music clip and a duration, and adjust the clip to play for the entire duration (loop if shorter, truncate if longer) (sounds.py)
 - [ ] Modify main function to add adjusted music clip as background music for the video (__init__.py)
