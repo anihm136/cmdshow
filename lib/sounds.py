@@ -3,7 +3,7 @@ from math import ceil
 import pydub
 
 def createSoundEffect(sound_file, video_length = 20):
-	sound = pydub.AudioSegment.from_wav(sound_file)
+	sound = pydub.AudioSegment.from_file(sound_file)
 	length_sound_file = len(sound)/1000
 	if length_sound_file >= video_length:
 		return
