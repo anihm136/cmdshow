@@ -4,6 +4,7 @@ from lib import createSlideshow
 
 allowed_transition_types = [
     "fade",
+    "random",
     "fadeblack",
     "fadewhite",
     "distance",
