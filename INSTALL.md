@@ -1,6 +1,6 @@
 # Installing cmdshow
 cmdshow is built on Python and the ffmpeg library, so they need to be installed.  
-####Instructions to install
+#### Instructions to install
 1. [Python](https://www.python.org/downloads/)
 2. [ffmpeg](https://ffmpeg.org/download.html)
 

@@ -3,14 +3,15 @@
 [![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://lbesson.mit-license.org/)  
 `cmdshow` is a Python tool/library to create slideshows out of images - super fast! It provides a wide range of options to customize the slideshow, while setting sensible defaults for when you need that slideshow yesterday. A user-friendly CLI as well as a GUI are available, whichever camp you belong to. 
 ## Usage
-At the most basic level, all you need to do is enter the path to your directory of images - simple as that! `cmdshow` will create a video slideshow out of the images in the given directory, add some background music and some transition effects and generally make it look good. For a list of all configuration options, see the [CLI help](##CLI) below
+At the most basic level, all you need to do is enter the path to your directory of images - simple as that! `cmdshow` will create a video slideshow out of the images in the given directory, add some background music and some transition effects and generally make it look good. For a list of all configuration options, see the [CLI help](#cli) below
 ## Installation
 See [INSTALL.md](./INSTALL.md)
 ## CLI
 ```
 $ python cmdshow.py --help
-usage: cmdshow.py [-h] [-m PATH_TO_MUSIC] [-fd FRAME_DURATION] [-td TRANSITION_DURATION] [-t TRANSITION_TYPE] [-r RESOLUTION]
-                  [-fps FRAMES_PER_SECOND] [-o OUTPUT_PATH]
+usage: cmdshow.py [-h] [-m PATH_TO_MUSIC] [-fd FRAME_DURATION]
+                  [-td TRANSITION_DURATION] [-t TRANSITION_TYPE]
+                  [-r RESOLUTION] [-fps FRAMES_PER_SECOND] [-o OUTPUT_PATH]
                   path_to_images
 
 positional arguments:
