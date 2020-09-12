@@ -9,31 +9,31 @@ See [INSTALL.md](./INSTALL.md)
 ## CLI
 ```
 $ python cmdshow.py --help
-usage: cmdshow.py [-h] [-m PATH_TO_MUSIC] [-fd FRAME_DURATION] [-td TRANSITION_DURATION] [-t TRANSITION_TYPE] [-q {fast,best,good}] [-r RESOLUTION]
-[-fps FRAMES_PER_SECOND]
-path_to_images
+usage: cmdshow.py [-h] [-m PATH_TO_MUSIC] [-fd FRAME_DURATION] [-td TRANSITION_DURATION] [-t TRANSITION_TYPE] [-r RESOLUTION]
+                  [-fps FRAMES_PER_SECOND] [-o OUTPUT_PATH]
+                  path_to_images
 
 positional arguments:
-path_to_images        Path to dirctory containing the images.
+  path_to_images        Path to dirctory containing the images.
 
 optional arguments:
--h, --help            show this help message and exit
--m PATH_TO_MUSIC, --music PATH_TO_MUSIC
-Path to the music file.
--fd FRAME_DURATION, --fduration FRAME_DURATION
-Duration of each frame.
--td TRANSITION_DURATION, --tduration TRANSITION_DURATION
-Duration of transition.
--t TRANSITION_TYPE, --transition TRANSITION_TYPE
-Type of transition. For more clarity visit: https://trac.ffmpeg.org/wiki/Xfade
--q {fast,best,good}, --quality {fast,best,good}
-Desired Quality
--r RESOLUTION, --resolution RESOLUTION
-Desired resolution
--fps FRAMES_PER_SECOND, --frames FRAMES_PER_SECOND
-Number of Frames per second.
-
+  -h, --help            show this help message and exit
+  -m PATH_TO_MUSIC, --music PATH_TO_MUSIC
+                        Path to the music file.
+  -fd FRAME_DURATION, --fduration FRAME_DURATION
+                        Duration of each frame.
+  -td TRANSITION_DURATION, --tduration TRANSITION_DURATION
+                        Duration of transition.
+  -t TRANSITION_TYPE, --transition TRANSITION_TYPE
+                        Type of transition. For more clarity visit: https://trac.ffmpeg.org/wiki/Xfade
+  -r RESOLUTION, --resolution RESOLUTION
+                        Desired resolution
+  -fps FRAMES_PER_SECOND, --frames FRAMES_PER_SECOND
+                        Number of Frames per second.
+  -o OUTPUT_PATH, --output OUTPUT_PATH
+                        Output path for the resultant sildeshow.
 ```
 ## GUI
+![Screenshot of GUI](./GUI.png)
 ## License
 [MIT License](./LICENSE)
