@@ -14,6 +14,7 @@ def createSlideshow(
     frame_rate,
     image_resolution,
     transition_duration,
+    transition_name
 ):
     images_path = Path(images_path)
     assert images_path.is_dir(), "Given path is not a directory"
@@ -30,7 +31,7 @@ def createSlideshow(
         applyTransitions(
             sorted_images,
             image_resolution,
-            "wipeup",
+            transition_name,
             frame_duration,
             transition_duration,
         )
