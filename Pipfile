@@ -16,6 +16,8 @@ black = "*"
 
 [packages]
 opencv-python = "*"
+pydub = "*"
+simpleaudio = "*"
 
 [requires]
 python_version = "3.8"
