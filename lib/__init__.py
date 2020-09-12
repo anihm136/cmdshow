@@ -14,8 +14,12 @@ def createSlideshow(
     frame_rate,
     image_resolution,
     transition_duration,
-    transition_name
+    transition_name,
+    out_file
 ):
+    """
+
+    """
     images_path = Path(images_path)
     assert images_path.is_dir(), "Given path is not a directory"
     assert isinstance(frame_duration, int), "Frame duration must be an integer"
@@ -40,6 +44,6 @@ def createSlideshow(
         createSoundEffect(music_path, vid_length)
         output_streams.append(ffmpeg.input("new_audio.wav"))
     out = ffmpeg.output(
-        *output_streams, "sorted_images.mp4", t=vid_length, r=frame_rate
+        *output_streams, out_file, t=vid_length, r=frame_rate
     ).overwrite_output()
     ffmpeg.run(out)
