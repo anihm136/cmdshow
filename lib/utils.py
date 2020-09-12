@@ -14,7 +14,7 @@ def getImagesFromPath(imgPath):
 
 def orderImages(images, parameter='sim'):
     if parameter == 'name':
-        sorted_images = sorted(images, key=lambda x: x.stem)
+        sorted_images = np.asarray(sorted(images, key=lambda x: x.stem))
     elif parameter == 'sim':
         hashes = [imagehash.average_hash(Image.open(path)) for path in images]
         num_images = len(images)
@@ -38,7 +38,7 @@ def orderImages(images, parameter='sim'):
         covered = np.asarray(covered)
         sorted_images = np.asarray(images)[covered]
     else:
-        return images
+        sorted_images = np.asarray(images)
     return sorted_images
 
 
@@ -131,4 +131,4 @@ def resizeImages(imgPath, mode='mean'):
 
 '''
 #p = r"../img"
-#print(orderImages(getImagesFromPath(p), "sim"))
+#print(orderImages(getImagesFromPath(p)))
