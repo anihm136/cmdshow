@@ -1,7 +1,9 @@
-import cv2
+import numpy as np
+import imagehash
 from PIL import Image
 from pathlib import Path
 import shutil
+
 
 def getImagesFromPath(imgPath):
     imgFormats = [".gif", ".tif", ".tiff",
@@ -10,11 +12,34 @@ def getImagesFromPath(imgPath):
     return [f.resolve() for f in directoryPath.iterdir() if f.suffix in imgFormats]
 
 
-def orderImages(images, parameter='name'):
+def orderImages(images, parameter='sim'):
     if parameter == 'name':
-        images.sort(key=lambda x: x.name)
+        sorted_images = sorted(images, key=lambda x: x.stem)
+    elif parameter == 'sim':
+        hashes = [imagehash.average_hash(Image.open(path)) for path in images]
+        num_images = len(images)
+        similarity = np.zeros((num_images, num_images))
+        for i in range(num_images):
+            for j in range(num_images):
+                similarity[i, j] = hashes[i] - hashes[j]
+
+        covered = list()
+        last = np.random.randint(num_images)
+        covered.append(last)
+        count = 1
+        while count < num_images:
+            mostDifferent = covered[-1]
+            while mostDifferent in covered and np.max(similarity[last]) != -1:
+                mostDifferent = np.argmax(similarity[last])
+                similarity[last, mostDifferent] = -1
+            covered.append(mostDifferent)
+            last = mostDifferent
+            count += 1
+        covered = np.asarray(covered)
+        sorted_images = np.asarray(images)[covered]
     else:
-        pass
+        return images
+    return sorted_images
 
 
 def createDirectory(parent, child):
@@ -31,6 +56,7 @@ def createDirectory(parent, child):
 def copyImagesToDirectory(images, ToPath):
     for img in images:
         shutil.copy(img, ToPath)
+
 
 '''
 def resizeToMean(images):
@@ -103,7 +129,6 @@ def resizeImages(imgPath, mode='mean'):
     tmpImages = getImagesFromPath(tmpPath)
     resizeToMin(tmpImages)
 
-
-p = r"../img"
-resizeImages(p)
 '''
+#p = r"../img"
+#print(orderImages(getImagesFromPath(p), "sim"))
