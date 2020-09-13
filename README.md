@@ -1,4 +1,5 @@
 
+
 <p align="center">
   <a href="#">
     <img src="BLOB/icon.png" alt="Logo" width="110" height="100">
@@ -66,9 +67,7 @@ optional arguments:
 ## GUI :rainbow:
 ![Screenshot of GUI](BLOB/GUI.png)
 
-
-## Watch it in action  :movie_camera:
-<iframe width="560" height="315" src="https://www.youtube.com/embed/WiVtuYXOKLU" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+Watch it in action: [Video](https://www.youtube.com/embed/WiVtuYXOKLU)
 
 ## License :briefcase:
 Can be found here: [License](./LICENSE)
