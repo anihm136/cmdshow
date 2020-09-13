@@ -3,11 +3,11 @@ import platform
 import re
 import subprocess
 import time
+from pathlib import Path
 from tkinter import *
 from tkinter import filedialog, ttk
-
+from lib.utils import getImagesFromPath, orderImages
 from lib import createSlideshow
-
 
 class App:
     def __init__(self):
@@ -16,6 +16,8 @@ class App:
         self.root.configure(background="#d2d2c9")
 
         self.imageDir = StringVar()
+        self.imageOrderType = ""
+        self.imageOrder = None
         self.outputDir = StringVar()
         self.audio = StringVar()
         self.resolution = ""
@@ -27,7 +29,7 @@ class App:
         self.error = StringVar()
         self.imageDir.set("No image directory chosen")
         self.outputDir.set("slideshow.mp4")
-        self.audio.set("No output directory chosen")
+        self.audio.set("No audio file chosen")
 
         self.blank = Label(self.root, bg="#d2d2c9")
         self.blank.grid(row=0, columnspan=6)
@@ -210,8 +212,20 @@ class App:
         self.resolution_entry.grid(row=15, column=3, columnspan=3)
         self.resolution_entry.insert(0, "1920x1080")
 
+        self.show_order = Label(
+            self.root, text="Order Image by", background="#d2d2c9")
+        self.show_order.config(fg="#673e37", font=("Comfortaa", 15))
+        self.show_order.grid(row=16, column=0, columnspan=3)
+
+        self.order_type_entry = ttk.Combobox(
+            self.root, textvariable=self.transitionType
+        )
+        self.order_type_entry["values"] = ["Similarity", "Name", "Custom"]
+        self.order_type_entry.current(1)
+        self.order_type_entry.grid(row=16, column=3, columnspan=3, padx=10)
+
         self.blank = Label(self.root, bg="#d2d2c9")
-        self.blank.grid(row=16, columnspan=6)
+        self.blank.grid(row=17, columnspan=6)
 
         self.content = Message(
             self.root,
@@ -220,7 +234,10 @@ class App:
             font=("Calibri"),
             fg="#673e37",
         )
-        self.content.grid(row=17, columnspan=6)
+        self.content.grid(row=18, columnspan=6)
+
+        self.blank = Label(self.root, bg="#d2d2c9")
+        self.blank.grid(row=19, columnspan=6)
 
         self.generateButton = Button(
             self.root,
@@ -230,7 +247,7 @@ class App:
             fg="white",
             font=("Comfortaa", 15),
         )
-        self.generateButton.grid(row=18, column=0, columnspan=3)
+        self.generateButton.grid(row=20, column=0, columnspan=3)
 
         self.playButton = Button(
             self.root,
@@ -240,10 +257,10 @@ class App:
             fg="white",
             font=("Comfortaa", 15),
         )
-        self.playButton.grid(row=18, column=3, columnspan=3)
+        self.playButton.grid(row=20, column=3, columnspan=3)
 
         self.blank = Label(self.root, bg="#d2d2c9")
-        self.blank.grid(row=19, columnspan=6)
+        self.blank.grid(row=21, columnspan=6)
 
         self.root.mainloop()
 
@@ -253,13 +270,30 @@ class App:
         self.transitionType = self.transition_type_entry.get()
         self.framerate = self.frame_rate_entry.get()
         self.transitionDuration = self.transition_dur_entry.get()
+        self.imageOrderType = self.order_type_entry.get()
+
         check = True
-        if self.imageDir == "":
+        if self.imageDir.get() == "No image directory chosen":
             self.error.set("Choose image directory.")
             check = False
             return
-        if self.audio == ".!button2":
-            self.audio = ""
+        else:
+            images = getImagesFromPath(self.imageDir.get())
+            if self.imageOrderType == "Custom":
+                self.slave = Tk()
+                self.slave.title("Choose Image Order")
+                self.slave.configure(background="#d2d2c9")
+                listbox = DragDropListbox(self.slave)
+                btn = Button(self.slave, text="Submit", command=lambda : self.getImageOrder(listbox))
+                for name in self.imageOrder:
+                    listbox.insert(END, name)
+                listbox.pack(fill=BOTH, expand=True)
+                btn.pack(fill=BOTH)
+            elif self.imageOrderType == "Name":
+                self.imageOrder = orderImages(images, "name")
+            else:
+                self.imageOrder = orderImages(images, "sim")
+            self.imageOrder = [Path(i) for i in self.imageOrder]
         try:
             self.frameDuration = int(self.frameDuration)
         except:
@@ -286,17 +320,18 @@ class App:
             self.resolution = tuple(map(int, self.resolution.split("x")))
 
         if check == False:
-            self.error.set("")
+            pass
         else:
+            self.error.set("")
             createSlideshow(
-                self.imageDir,
-                self.audio,
+                self.imageOrder,
+                self.audio.get(),
                 self.frameDuration,
                 self.framerate,
                 self.resolution,
                 self.transitionDuration,
                 self.transitionType,
-                self.outputDir,
+                self.outputDir.get(),
             )
 
     def playSlideshow(self):
@@ -325,5 +360,41 @@ class App:
                 "Video Files", ".m4a"), ("Video Files", ".mov"), ("Video Files", ".ogg"), ("Video Files", ".webm")],
         ).name)
         os.remove(self.outputDir)
+
+    def getImageOrder(self, listbox):
+        self.imageOrder = listbox.show()
+
+class DragDropListbox(Listbox):
+    """ A Tkinter listbox with drag'n'drop reordering of entries. """
+
+    def __init__(self, master, **kw):
+        kw["selectmode"] = SINGLE
+        Listbox.__init__(self, master, kw)
+        self.bind("<Button-1>", self.setCurrent)
+        self.bind("<B1-Motion>", self.shiftSelection)
+        self.curIndex = None
+
+    def setCurrent(self, event):
+        self.curIndex = self.nearest(event.y)
+
+    def shiftSelection(self, event):
+        i = self.nearest(event.y)
+        if i < self.curIndex:
+            x = self.get(i)
+            self.delete(i)
+            self.insert(i + 1, x)
+            self.curIndex = i
+        elif i > self.curIndex:
+            x = self.get(i)
+            self.delete(i)
+            self.insert(i - 1, x)
+            self.curIndex = i
+
+    def show(self):
+        order = self.get(0,'end')
+        self.master.destroy()
+        print(order)
+        return order
+
 
 App()

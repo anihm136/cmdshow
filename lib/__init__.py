@@ -160,7 +160,7 @@ def createSlideshow(
 
     if p.returncode != 0:
         with open('errorlog.txt', 'w') as errorlog:
-            errorlog.write(output[1].decode('utf8')
+            errorlog.write(output[1].decode('utf8'))
         sys.stderr.write("An error occurred. Please check errorlog.txt for details")
         sys.exit(1)
 
