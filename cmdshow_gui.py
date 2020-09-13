@@ -285,7 +285,7 @@ class App:
                 self.slave.configure(background="#d2d2c9")
                 listbox = DragDropListbox(self.slave)
                 btn = Button(self.slave, text="Submit", command=lambda : self.getImageOrder(listbox))
-                for name in self.imageOrder:
+                for name in images:
                     listbox.insert(END, name)
                 listbox.pack(fill=BOTH, expand=True)
                 btn.pack(fill=BOTH)
@@ -337,11 +337,11 @@ class App:
     def playSlideshow(self):
         try:
             if platform.system() == "Darwin":
-                subprocess.call(("open", self.outputDir))
+                subprocess.call(("open", self.outputDir.get()))
             elif platform.system() == "Windows":
-                os.startfile(self.outputDir)
+                os.startfile(self.outputDir.get())
             else:
-                subprocess.call(("xdg-open", self.outputDir))
+                subprocess.call(("xdg-open", self.outputDir.get()))
         except:
             self.error.set("Video not found.")
 
@@ -359,10 +359,12 @@ class App:
             filetypes=[("Video Files", ".mp4"), ("Video Files", ".avi"), ("Video Files", ".flv"), (
                 "Video Files", ".m4a"), ("Video Files", ".mov"), ("Video Files", ".ogg"), ("Video Files", ".webm")],
         ).name)
-        os.remove(self.outputDir)
+        os.remove(self.outputDir.get())
 
     def getImageOrder(self, listbox):
-        self.imageOrder = listbox.show()
+        s = listbox.show()
+        print(s)
+        self.imageOrder = s
 
 class DragDropListbox(Listbox):
     """ A Tkinter listbox with drag'n'drop reordering of entries. """
@@ -373,6 +375,7 @@ class DragDropListbox(Listbox):
         self.bind("<Button-1>", self.setCurrent)
         self.bind("<B1-Motion>", self.shiftSelection)
         self.curIndex = None
+        self.master = master
 
     def setCurrent(self, event):
         self.curIndex = self.nearest(event.y)
@@ -393,7 +396,6 @@ class DragDropListbox(Listbox):
     def show(self):
         order = self.get(0,'end')
         self.master.destroy()
-        print(order)
         return order
 
 
