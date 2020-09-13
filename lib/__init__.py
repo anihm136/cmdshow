@@ -61,7 +61,7 @@ def createSlideshow(
     spinner = Spinner()
     spinner.start("Creating slideshow... ")
     try:
-        ffmpeg.run_async(out, quiet=True).communicate()
+        ffmpeg.run(out, quiet=True)
         spinner.stop("Done! Created slideshow at {}".format(out_file))
     except Exception as e:
         spinner.stop("Error: {}. Slideshow could not be created".format(e))
