@@ -80,7 +80,7 @@ class App:
 
         self.transition_dur_entry = Entry(self.root)
         self.transition_dur_entry.grid(row=5, column=1)
-        self.transition_dur_entry.insert(0, "1")
+        self.transition_dur_entry.insert(0, "2")
 
         self.frame_dur = Label(
             self.root, text="Frame Duration", background="#d2d2c9")
@@ -157,7 +157,7 @@ class App:
 
         self.frame_rate_entry = Entry(self.root)
         self.frame_rate_entry.grid(row=7, column=1, columnspan=2)
-        self.frame_rate_entry.insert(0, "10")
+        self.frame_rate_entry.insert(0, "15")
 
         self.show_resolution = Label(
             self.root, text="Resolution", background="#d2d2c9")
@@ -282,6 +282,5 @@ class App:
                 "Video Files", ".m4a"), ("Video Files", ".mov"), ("Video Files", ".ogg"), ("Video Files", ".webm")],
         ).name
         os.remove(self.outputDir)
-        print(self.outputDir)
 
 App()

@@ -37,8 +37,8 @@ def createSlideshow(
         transition_duration, int
     ), "Transition duration must be an integer"
 
-    frame_images = getImagesFromPath(images_path)
-    sorted_images = orderImages(frame_images)
+    frame_images = [str(i) for i in getImagesFromPath(images_path)]
+    sorted_images = [str(i) for i in orderImages(frame_images)]
     vid_length = len(sorted_images) * frame_duration
     output_streams = []
     output_streams.append(
