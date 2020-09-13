@@ -48,5 +48,8 @@ optional arguments:
 ```
 ## GUI
 ![Screenshot of GUI](./GUI.png)
+
+Watch it in action [here](https://youtu.be/yIMtjr1hbjo)
+
 ## License
 [MIT License](./LICENSE)
