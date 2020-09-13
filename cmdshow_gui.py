@@ -279,7 +279,7 @@ class App:
             return
         else:
             images = getImagesFromPath(self.imageDir.get())
-            if self.imageOrderType == "Custom":
+            if self.imageOrderType == "Custom" and self.imageOrder is None:
                 self.slave = Tk()
                 self.slave.title("Choose Image Order")
                 self.slave.configure(background="#d2d2c9")
@@ -289,11 +289,11 @@ class App:
                     listbox.insert(END, name)
                 listbox.pack(fill=BOTH, expand=True)
                 btn.pack(fill=BOTH)
+                return
             elif self.imageOrderType == "Name":
                 self.imageOrder = orderImages(images, "name")
             else:
-                self.imageOrder = orderImages(images, "sim")
-            self.imageOrder = [Path(i) for i in self.imageOrder]
+                self.imageOrder = orderImages(images, "sim")     
         try:
             self.frameDuration = int(self.frameDuration)
         except:
@@ -363,7 +363,7 @@ class App:
 
     def getImageOrder(self, listbox):
         s = listbox.show()
-        print(s)
+        #print(s)
         self.imageOrder = s
 
 class DragDropListbox(Listbox):
@@ -375,7 +375,7 @@ class DragDropListbox(Listbox):
         self.bind("<Button-1>", self.setCurrent)
         self.bind("<B1-Motion>", self.shiftSelection)
         self.curIndex = None
-        self.master = master
+        #self.master = master
 
     def setCurrent(self, event):
         self.curIndex = self.nearest(event.y)
@@ -396,7 +396,7 @@ class DragDropListbox(Listbox):
     def show(self):
         order = self.get(0,'end')
         self.master.destroy()
-        return order
+        return [Path(i) for i in order]
 
 
 App()
