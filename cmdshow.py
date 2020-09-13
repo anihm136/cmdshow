@@ -53,6 +53,7 @@ allowed_FPS = [i for i in range(1, 26)]
 allowed_sound_formats = ["mp3", "wav", "au", "ogg"]
 music_file_path = "lib/audio.wav"
 parser = argparse.ArgumentParser()
+
 # Arguments
 parser.add_argument(
     dest="path_to_images", type=str, help="Path to dirctory containing the images."
@@ -79,7 +80,7 @@ parser.add_argument(
     dest="transition_duration",
     type=int,
     help="Duration of transition.",
-    default=1,
+    default=2,
 )
 parser.add_argument(
     "-t",
@@ -112,13 +113,13 @@ parser.add_argument(
     dest="frames_per_second",
     type=int,
     help="Number of Frames per second.",
-    default=10,
+    default=15,
 )
 parser.add_argument(
     "-o",
     "--output",
     dest="output_path",
-    type=int,
+    type=str,
     help="Output path for the resultant sildeshow.",
     default="output.mp4",
 )

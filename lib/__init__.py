@@ -15,11 +15,10 @@ def createSlideshow(
     image_resolution,
     transition_duration,
     transition_name,
-    out_file
+    out_file,
 ):
     """
     Main function to create slideshow
-
     :param images_path Path: Path to directory of images to use
     :param music_path Path: Path to music file to use
     :param frame_duration int: Duration for each image to be displayed
@@ -49,12 +48,13 @@ def createSlideshow(
             transition_duration,
         )
     )
+    extension = music_path[-3:]
     if music_path:
         createSoundEffect(music_path, vid_length)
-        output_streams.append(ffmpeg.input("new_audio.wav"))
+        output_streams.append(ffmpeg.input("new_audio.{ext}".format(ext=extension)))
     out = ffmpeg.output(
         *output_streams, out_file, t=vid_length, r=frame_rate
     ).overwrite_output()
-    print("Running...")
+
     ffmpeg.run(out)
-    print("Done!!!")
+    os.remove("new_audio.{ext}".format(ext=extension))

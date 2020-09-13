@@ -6,16 +6,15 @@ import shutil
 
 
 def getImagesFromPath(imgPath):
-    imgFormats = [".gif", ".tif", ".tiff",
-                  ".jpg", ".jpeg", ".bmp", ".png", ".eps"]
+    imgFormats = [".gif", ".tif", ".tiff", ".jpg", ".jpeg", ".bmp", ".png", ".eps"]
     directoryPath = Path(imgPath)
     return [f.resolve() for f in directoryPath.iterdir() if f.suffix in imgFormats]
 
 
-def orderImages(images, parameter='sim'):
-    if parameter == 'name':
+def orderImages(images, parameter="sim"):
+    if parameter == "name":
         sorted_images = np.asarray(sorted(images, key=lambda x: x.stem))
-    elif parameter == 'sim':
+    elif parameter == "sim":
         hashes = [imagehash.average_hash(Image.open(path)) for path in images]
         num_images = len(images)
         similarity = np.zeros((num_images, num_images))
@@ -58,7 +57,7 @@ def copyImagesToDirectory(images, ToPath):
         shutil.copy(img, ToPath)
 
 
-'''
+"""
 def resizeToMean(images):
     num_images = len(images)
     mean_width, mean_height = 0, 0
@@ -129,6 +128,6 @@ def resizeImages(imgPath, mode='mean'):
     tmpImages = getImagesFromPath(tmpPath)
     resizeToMin(tmpImages)
 
-'''
-#p = r"../img"
-#print(orderImages(getImagesFromPath(p)))
+"""
+# p = r"../img"
+# print(orderImages(getImagesFromPath(p)))
