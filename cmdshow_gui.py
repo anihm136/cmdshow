@@ -82,7 +82,8 @@ class App:
         self.transition_dur_entry.grid(row=5, column=1)
         self.transition_dur_entry.insert(0, "1")
 
-        self.frame_dur = Label(self.root, text="Frame Duration", background="#d2d2c9")
+        self.frame_dur = Label(
+            self.root, text="Frame Duration", background="#d2d2c9")
         self.frame_dur.config(fg="#673e37", font=("Comfortaa", 15))
         self.frame_dur.grid(row=5, column=2, padx=5)
 
@@ -149,7 +150,8 @@ class App:
         self.blank = Label(self.root, bg="#d2d2c9")
         self.blank.grid(row=6, columnspan=6)
 
-        self.frame_rate = Label(self.root, text="Frame Rate", background="#d2d2c9")
+        self.frame_rate = Label(
+            self.root, text="Frame Rate", background="#d2d2c9")
         self.frame_rate.config(fg="#673e37", font=("Comfortaa", 15))
         self.frame_rate.grid(row=7, column=0, columnspan=1)
 
@@ -157,7 +159,8 @@ class App:
         self.frame_rate_entry.grid(row=7, column=1, columnspan=2)
         self.frame_rate_entry.insert(0, "10")
 
-        self.show_resolution = Label(self.root, text="Resolution", background="#d2d2c9")
+        self.show_resolution = Label(
+            self.root, text="Resolution", background="#d2d2c9")
         self.show_resolution.config(fg="#673e37", font=("Comfortaa", 15))
         self.show_resolution.grid(row=7, column=3, columnspan=1)
 
@@ -275,13 +278,10 @@ class App:
 
     def chooseOutDir(self):
         self.outputDir = filedialog.asksaveasfile(
-            filetypes=[("Video Files", ".mp4")],
-            # defaultextension=[("Video Files", ".mp4")],
+            filetypes=[("Video Files", ".mp4"), ("Video Files", ".avi"), ("Video Files", ".flv"), (
+                "Video Files", ".m4a"), ("Video Files", ".mov"), ("Video Files", ".ogg"), ("Video Files", ".webm")],
         ).name
         os.remove(self.outputDir)
-        if not self.outputDir.endswith(".mp4"):
-            self.outputDir += ".mp4"
         print(self.outputDir)
-
 
 App()
