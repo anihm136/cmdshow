@@ -23,9 +23,9 @@ def createSoundEffect(sound_file, video_length):
         exit(2)
     sound = pydub.AudioSegment.from_file(sound_file)
     length_sound_file = len(sound) / 1000
-    if length_sound_file >= video_length:
-        return
-    loops_required = ceil(video_length / length_sound_file)
+    loops_required = 1
+    if length_sound_file < video_length:
+        loops_required = ceil(video_length / length_sound_file)
     new_sound = sound * loops_required
     new_sound.export("new_audio.{ext}".format(ext=extension), format=extension)
 
