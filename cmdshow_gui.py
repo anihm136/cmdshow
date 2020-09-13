@@ -1,16 +1,15 @@
-from lib import createSlideshow
 import os
-import re
 import platform
+import re
 import subprocess
 import time
-from tkinter import filedialog
 from tkinter import *
-from tkinter import ttk
+from tkinter import filedialog, ttk
+
+from lib import createSlideshow
 
 
 class App:
-
     def __init__(self):
         self.root = Tk()
         self.root.title("CMDShow")
@@ -83,9 +82,7 @@ class App:
         self.transition_dur_entry.grid(row=5, column=1)
         self.transition_dur_entry.insert(0, "1")
 
-        self.frame_dur = Label(
-            self.root, text="Frame Duration", background="#d2d2c9"
-        )
+        self.frame_dur = Label(self.root, text="Frame Duration", background="#d2d2c9")
         self.frame_dur.config(fg="#673e37", font=("Comfortaa", 15))
         self.frame_dur.grid(row=5, column=2, padx=5)
 
@@ -100,58 +97,59 @@ class App:
         self.transition_type.grid(row=5, column=4, padx=5)
 
         self.transition_type_entry = ttk.Combobox(
-            self.root, textvariable=self.transitionType)
-        self.transition_type_entry["values"] = ["random",
-                                                "fade",
-                                                "fadeblack",
-                                                "fadewhite",
-                                                "distance",
-                                                "wipeleft",
-                                                "wiperight",
-                                                "wipeup",
-                                                "wipedown",
-                                                "slideleft",
-                                                "slideright",
-                                                "slideup",
-                                                "slidedown",
-                                                "smoothleft",
-                                                "smoothright",
-                                                "smoothup",
-                                                "smoothdown",
-                                                "rectcrop",
-                                                "circlecrop",
-                                                "circleclose",
-                                                "circleopen",
-                                                "horzclose",
-                                                "horzopen",
-                                                "vertclose",
-                                                "vertopen",
-                                                "diagbl",
-                                                "diagbr",
-                                                "diagtl",
-                                                "diagtr",
-                                                "hlslice",
-                                                "hrslice",
-                                                "vuslice",
-                                                "vdslice",
-                                                "dissolve",
-                                                "pixelize",
-                                                "radial",
-                                                "hblur",
-                                                "wipetl",
-                                                "wipetr",
-                                                "wipebl",
-                                                "wipebr",
-                                                "fadegrays"]
+            self.root, textvariable=self.transitionType
+        )
+        self.transition_type_entry["values"] = [
+            "random",
+            "fade",
+            "fadeblack",
+            "fadewhite",
+            "distance",
+            "wipeleft",
+            "wiperight",
+            "wipeup",
+            "wipedown",
+            "slideleft",
+            "slideright",
+            "slideup",
+            "slidedown",
+            "smoothleft",
+            "smoothright",
+            "smoothup",
+            "smoothdown",
+            "rectcrop",
+            "circlecrop",
+            "circleclose",
+            "circleopen",
+            "horzclose",
+            "horzopen",
+            "vertclose",
+            "vertopen",
+            "diagbl",
+            "diagbr",
+            "diagtl",
+            "diagtr",
+            "hlslice",
+            "hrslice",
+            "vuslice",
+            "vdslice",
+            "dissolve",
+            "pixelize",
+            "radial",
+            "hblur",
+            "wipetl",
+            "wipetr",
+            "wipebl",
+            "wipebr",
+            "fadegrays",
+        ]
         self.transition_type_entry.current(1)
         self.transition_type_entry.grid(row=5, column=5, padx=10)
 
         self.blank = Label(self.root, bg="#d2d2c9")
         self.blank.grid(row=6, columnspan=6)
 
-        self.frame_rate = Label(
-            self.root, text="Frame Rate", background="#d2d2c9"
-        )
+        self.frame_rate = Label(self.root, text="Frame Rate", background="#d2d2c9")
         self.frame_rate.config(fg="#673e37", font=("Comfortaa", 15))
         self.frame_rate.grid(row=7, column=0, columnspan=1)
 
@@ -159,9 +157,7 @@ class App:
         self.frame_rate_entry.grid(row=7, column=1, columnspan=2)
         self.frame_rate_entry.insert(0, "10")
 
-        self.show_resolution = Label(
-            self.root, text="Resolution", background="#d2d2c9"
-        )
+        self.show_resolution = Label(self.root, text="Resolution", background="#d2d2c9")
         self.show_resolution.config(fg="#673e37", font=("Comfortaa", 15))
         self.show_resolution.grid(row=7, column=3, columnspan=1)
 
@@ -241,12 +237,22 @@ class App:
             self.error.set("Invalid format for Resolution")
             check = False
             return
+        else:
+            self.resolution = tuple(map(int, self.resolution.split("x")))
 
-        if check == True:
+        if check == False:
             self.error.set("")
         else:
-            createSlideshow(self.imageDir, self.audio, self.frameDuration, self.framerate,
-                            self.resolution, self.transitionDuration, self.transitionType, self.outputDir)
+            createSlideshow(
+                self.imageDir,
+                self.audio,
+                self.frameDuration,
+                self.framerate,
+                self.resolution,
+                self.transitionDuration,
+                self.transitionType,
+                self.outputDir,
+            )
 
     def playSlideshow(self):
         try:
@@ -264,14 +270,18 @@ class App:
 
     def chooseAudio(self):
         self.audio = filedialog.askopenfile(
-            mode='r', filetypes=[('Audio Files', '*.wav')]).name
+            mode="r", filetypes=[("Audio Files", "*.wav")]
+        ).name
 
     def chooseOutDir(self):
-        self.outputDir = filedialog.asksaveasfile(filetypes=[(
-            "Video Files", ".mp4")], defaultextension=[("Video Files", ".mp4")]).name
+        self.outputDir = filedialog.asksaveasfile(
+            filetypes=[("Video Files", ".mp4")],
+            # defaultextension=[("Video Files", ".mp4")],
+        ).name
         os.remove(self.outputDir)
         if not self.outputDir.endswith(".mp4"):
             self.outputDir += ".mp4"
+        print(self.outputDir)
 
 
 App()

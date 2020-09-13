@@ -55,4 +55,6 @@ def createSlideshow(
     out = ffmpeg.output(
         *output_streams, out_file, t=vid_length, r=frame_rate
     ).overwrite_output()
+    print("Running...")
     ffmpeg.run(out)
+    print("Done!!!")
