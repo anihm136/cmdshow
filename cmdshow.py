@@ -1,6 +1,6 @@
 import argparse
 from os import path
-from lib import createSlideshow
+from lib import createSlideshow, getImagesFromPath, orderImages
 
 allowed_transition_types = [
     "fade",
@@ -158,8 +158,10 @@ if flag == 1:
             "Invalid resolution value: {user_value} ".format(user_value=args.resolution)
         )
 
+    image_frames = [str(i) for i in getImagesFromPath(args.path_to_images)]
+    sorted_images = [str(i) for i in orderImages(image_frames)]
     createSlideshow(
-        args.path_to_images,
+        sorted_images,
         args.path_to_music,
         args.frame_duration,
         args.frames_per_second,

@@ -1,3 +1,4 @@
+![Icon](./icon.svg)
 # cmdshow
 [![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/)
 [![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://lbesson.mit-license.org/)  
@@ -20,7 +21,8 @@ See [INSTALL.md](./INSTALL.md)
 $ python cmdshow.py --help
 usage: cmdshow.py [-h] [-m PATH_TO_MUSIC] [-fd FRAME_DURATION]
                   [-td TRANSITION_DURATION] [-t TRANSITION_TYPE]
-                  [-r RESOLUTION] [-fps FRAMES_PER_SECOND] [-o OUTPUT_PATH]
+                  [-r RESOLUTION] [-fps FRAMES_PER_SECOND]
+                  [-o OUTPUT_PATH]
                   path_to_images
 
 positional arguments:
@@ -35,7 +37,8 @@ optional arguments:
   -td TRANSITION_DURATION, --tduration TRANSITION_DURATION
                         Duration of transition.
   -t TRANSITION_TYPE, --transition TRANSITION_TYPE
-                        Type of transition. For more clarity visit: https://trac.ffmpeg.org/wiki/Xfade
+                        Type of transition. For more clarity visit:
+                        https://trac.ffmpeg.org/wiki/Xfade
   -r RESOLUTION, --resolution RESOLUTION
                         Desired resolution
   -fps FRAMES_PER_SECOND, --frames FRAMES_PER_SECOND
