@@ -1,4 +1,6 @@
 from math import ceil
+from pathlib import Path
+
 import pydub
 
 
@@ -12,7 +14,8 @@ def createSoundEffect(sound_file, video_length):
     allowed_sound_formats = ["mp3", "wav", "au", "ogg"]
 
     try:
-        extension = sound_file[-3:]
+        extension = Path(sound_file).suffix[1:]
+        print(extension)
         if extension not in allowed_sound_formats:
             print("Music file format invalid.")
             exit(2)

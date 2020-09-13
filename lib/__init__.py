@@ -1,5 +1,5 @@
 from pathlib import Path
-import os
+
 import ffmpeg
 
 from .sounds import createSoundEffect
@@ -29,7 +29,9 @@ def createSlideshow(
     :param out_file Path: Path of file to output video
     """
     images_path = Path(images_path)
+    music_path = Path(music_path)
     assert images_path.is_dir(), "Given path is not a directory"
+    assert music_path.is_file(), "Given path is not a file"
     assert isinstance(frame_duration, int), "Frame duration must be an integer"
     assert isinstance(
         transition_duration, int
@@ -48,8 +50,8 @@ def createSlideshow(
             transition_duration,
         )
     )
-    extension = music_path[-3:]
     if music_path:
+        extension = music_path.suffix[1:]
         createSoundEffect(music_path, vid_length)
         output_streams.append(ffmpeg.input("new_audio.{ext}".format(ext=extension)))
     out = ffmpeg.output(
@@ -57,4 +59,5 @@ def createSlideshow(
     ).overwrite_output()
 
     ffmpeg.run(out)
-    os.remove("new_audio.{ext}".format(ext=extension))
+    if music_path:
+        Path("new_audio.{ext}".format(ext=extension)).unlink()
