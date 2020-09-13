@@ -1,5 +1,5 @@
 from pathlib import Path
-
+import os
 import ffmpeg
 
 from .sounds import createSoundEffect
