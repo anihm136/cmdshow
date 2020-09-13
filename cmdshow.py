@@ -47,9 +47,6 @@ allowed_transition_types = [
     "fadegrays",
 ]
 allowed_FPS = [i for i in range(1, 26)]
-
-# allowed_quality_choices = ["fast", "best", "good"]
-
 allowed_sound_formats = ["mp3", "wav", "au", "ogg"]
 music_file_path = "lib/audio.wav"
 parser = argparse.ArgumentParser()
@@ -90,15 +87,6 @@ parser.add_argument(
     help="Type of transition.\nFor more clarity visit: https://trac.ffmpeg.org/wiki/Xfade",
     default="fade",
 )
-
-# parser.add_argument('-q',
-# 	'--quality',
-# 	dest='quality',
-# 	type=str,
-# 	choices=allowed_quality_choices,
-# 	help="Desired Quality",
-# 	default="good")
-
 parser.add_argument(
     "-r",
     "--resolution",
