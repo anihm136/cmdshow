@@ -15,7 +15,6 @@ def createSoundEffect(sound_file, video_length):
 
     try:
         extension = Path(sound_file).suffix[1:]
-        print(extension)
         if extension not in allowed_sound_formats:
             print("Music file format invalid.")
             exit(2)
@@ -28,7 +27,7 @@ def createSoundEffect(sound_file, video_length):
         return
     loops_required = ceil(video_length / length_sound_file)
     new_sound = sound * loops_required
-    new_sound.export("lib/new_audio.{ext}".format(ext=extension), format=extension)
+    new_sound.export("new_audio.{ext}".format(ext=extension), format=extension)
 
 
 # FOR TESTING:

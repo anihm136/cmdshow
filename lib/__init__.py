@@ -1,22 +1,27 @@
 from pathlib import Path
 
-# import ffmpeg
+import gevent.monkey
 
 from .sounds import createSoundEffect
 from .transitions import applyTransitions
 from .utils import Spinner, getImagesFromPath, orderImages
 
-import gevent.monkey; gevent.monkey.patch_all()
+# import ffmpeg
+
+
+
+gevent.monkey.patch_all()
 
 import contextlib
-import ffmpeg
-import gevent
 import os
 import shutil
 import socket
 import subprocess
 import sys
 import tempfile
+
+import ffmpeg
+import gevent
 
 
 @contextlib.contextmanager
@@ -30,18 +35,18 @@ def _tmpdir_scope():
 
 def _watch_progress(filename, sock, handler):
     connection, client_address = sock.accept()
-    data = ''
+    data = ""
     with contextlib.closing(connection):
         while True:
             more_data = connection.recv(16)
             if not more_data:
                 break
-            data += more_data
-            lines = data.split('\n')
+            data += str(more_data)
+            lines = data.split("\\n")
             for line in lines[:-1]:
-                parts = line.split('=')
-                key = parts[0] if len(parts) > 0 else None
-                value = parts[1] if len(parts) > 1 else None
+                parts = line.split("=")
+                key = parts[0].replace("'b'","") if len(parts) > 0 else None
+                value = parts[1].replace("'b'","") if len(parts) > 1 else None
                 handler(key, value)
             data = lines[-1]
 
@@ -49,7 +54,7 @@ def _watch_progress(filename, sock, handler):
 @contextlib.contextmanager
 def watch_progress(handler):
     with _tmpdir_scope() as tmpdir:
-        filename = os.path.join(tmpdir, 'sock')
+        filename = os.path.join(tmpdir, "sock")
         sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
         with contextlib.closing(sock):
             sock.bind(filename)
@@ -62,39 +67,24 @@ def watch_progress(handler):
                 raise
 
 
-duration = float(ffmpeg.probe('new_audio.wav')['format']['duration'])
+duration = 0
 
 prev_text = None
 
+
 def handler(key, value):
     global prev_text
-    if key == 'out_time_ms':
-        text = '{:.02f}%'.format(float(value) / 10000. / duration)
+    if key == "out_time_ms":
+        text = "{:4.02f}%".format(float(value) / 10000.0 / duration)
         if text != prev_text:
-            print(text)
+            print('\b \b'*100, end='')
+            print(text, end='', flush=True)
             prev_text = text
 
 
-with watch_progress(handler) as filename:
-    p = subprocess.Popen(
-        (ffmpeg
-            .input('in.mp4')
-            .output('out.mp4')
-            .global_args('-progress', 'unix://{}'.format(filename))
-            .overwrite_output()
-            .compile()
-        ),
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-    )
-    out = p.communicate()
-
-if p.returncode != 0:
-    sys.stderr.write(out[1])
-    sys.exit(1)
 
 def progress_handler(progress_info):
-    print('{:.2f}'.format(progress_info['percentage']))
+    print("{:.2f}".format(progress_info["percentage"]))
 
 
 def createSlideshow(
@@ -130,6 +120,8 @@ def createSlideshow(
     frame_images = [str(i) for i in getImagesFromPath(images_path)]
     sorted_images = [str(i) for i in orderImages(frame_images)]
     vid_length = len(sorted_images) * frame_duration
+    global duration
+    duration = vid_length
     output_streams = []
     output_streams.append(
         applyTransitions(
@@ -144,26 +136,32 @@ def createSlideshow(
         extension = music_path.suffix[1:]
         createSoundEffect(music_path, vid_length)
         output_streams.append(ffmpeg.input("new_audio.{ext}".format(ext=extension)))
-    out = ffmpeg.output(
-        *output_streams, out_file, t=vid_length, r=frame_rate
-    ).overwrite_output().progress(progress_handler)
 
-    # (ffmpeg
-    # .input('in.mp4')
-    # .output('out.mp4')
-    # .progress(progress_handler)
-    # .overwrite_output()
-    # .run()
-    # )
+    with watch_progress(handler) as filename:
+        out = (
+            ffmpeg.output(*output_streams, out_file, t=vid_length, r=frame_rate)
+            .global_args('-progress', 'unix://{}'.format(filename))
+            .overwrite_output()
+            .compile()
+        )
+        p = subprocess.Popen(
+            out,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+        )
+        output = p.communicate()
 
+    if p.returncode != 0:
+        sys.stderr.write(str(output[1]))
+        sys.exit(1)
 
-    spinner = Spinner()
-    spinner.start("Creating slideshow... ")
-    try:
-        ffmpeg.run(out, quiet=True)
-        spinner.stop("Done! Created slideshow at {}".format(out_file))
-    except Exception as e:
-        spinner.stop("Error: {}. Slideshow could not be created".format(e))
+    # spinner = Spinner()
+    # spinner.start("Creating slideshow... ")
+    # try:
+    #     ffmpeg.run(out, quiet=True)
+    #     spinner.stop("Done! Created slideshow at {}".format(out_file))
+    # except Exception as e:
+    #     spinner.stop("Error: {}. Slideshow could not be created".format(e))
 
     if music_path:
         Path("new_audio.{ext}".format(ext=extension)).unlink()
