@@ -51,4 +51,4 @@ optional arguments:
 ## GUI
 ![Screenshot of GUI](./GUI.png)
 ## License
-[MIT License](./LICENSE)
+Can be found here: [MIT License](./LICENSE)
