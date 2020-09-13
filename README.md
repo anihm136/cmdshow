@@ -64,7 +64,7 @@ optional arguments:
                         Output path for the resultant sildeshow.
 ```
 ## GUI :rainbow:
-![Screenshot of GUI](.BLOB/GUI.png)
+![Screenshot of GUI](BLOB/GUI.png)
 
 
 ## Watch it in action  :movie_camera:
