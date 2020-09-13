@@ -79,8 +79,8 @@ def copyImagesToDirectory(images, ToPath):
         shutil.copy(img, ToPath)
 
 
-class Spinner():
-    spinner_cycle = itertools.cycle(["-", "/", "|", "\\"])
+class Spinner:
+    spinner_cycle = itertools.cycle(["⢄", "⢂", "⢁", "⡁", "⡈", "⡐", "⡠"])
 
     def __init__(self):
         self.stop_running = threading.Event()
@@ -99,7 +99,7 @@ class Spinner():
         while not self.stop_running.is_set():
             sys.stdout.write(next(self.spinner_cycle))
             sys.stdout.flush()
-            time.sleep(0.25)
+            time.sleep(0.05)
             sys.stdout.write("\b")
 
 
