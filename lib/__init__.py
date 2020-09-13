@@ -58,9 +58,9 @@ def createSlideshow(
         *output_streams, out_file, t=vid_length, r=frame_rate
     ).overwrite_output()
 
-    ffmpeg.run(out)
     spinner = Spinner()
     spinner.start("Creating slideshow... ")
+    ffmpeg.run_async(out, quiet=True).communicate()
     spinner.stop("Done! Created slideshow at {}".format(out_file))
 
     if music_path:
