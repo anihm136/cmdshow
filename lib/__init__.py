@@ -60,8 +60,11 @@ def createSlideshow(
 
     spinner = Spinner()
     spinner.start("Creating slideshow... ")
-    ffmpeg.run_async(out, quiet=True).communicate()
-    spinner.stop("Done! Created slideshow at {}".format(out_file))
+    try:
+        ffmpeg.run_async(out, quiet=True).communicate()
+        spinner.stop("Done! Created slideshow at {}".format(out_file))
+    except Exception as e:
+        spinner.stop("Error: {}. Slideshow could not be created".format(e))
 
     if music_path:
         Path("new_audio.{ext}".format(ext=extension)).unlink()
