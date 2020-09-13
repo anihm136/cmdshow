@@ -20,6 +20,7 @@ pydub = "*"
 simpleaudio = "*"
 ffmpeg-python = "*"
 imagehash = "*"
+gevent = "*"
 
 [requires]
 python_version = "3.8"
