@@ -50,7 +50,7 @@ optional arguments:
 ## GUI
 ![Screenshot of GUI](.BLOB/GUI.png)
 
-Watch it in action [here](https://youtu.be/yIMtjr1hbjo)
+Watch it in action [here](https://youtu.be/WiVtuYXOKLU)
 
 ## License
 Can be found here: [MIT License](./LICENSE)
