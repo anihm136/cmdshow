@@ -8,6 +8,7 @@ import imagehash
 import numpy as np
 from PIL import Image
 
+
 def getImagesFromPath(imgPath):
     """
     Get all image files from given path
