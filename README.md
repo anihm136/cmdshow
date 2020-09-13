@@ -1,6 +1,6 @@
 
 
-#  <img src="https://raw.githubusercontent.com/anihm136/cmdshow/master/icon.png" width="90" height="90" />  cmdshow
+#  <img src="icon.png" width="80" height="90" />  cmdshow
 [![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/)
 [![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://lbesson.mit-license.org/)  
 `cmdshow` is a Python tool/library to create slideshows out of images - super fast! It provides a wide range of options to customize the slideshow, while setting sensible defaults for when you need that slideshow yesterday. A user-friendly CLI as well as a GUI are available, whichever camp you belong to. 
