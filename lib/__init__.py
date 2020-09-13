@@ -41,12 +41,12 @@ def _watch_progress(filename, sock, handler):
             more_data = connection.recv(16)
             if not more_data:
                 break
-            data += str(more_data)
-            lines = data.split("\\n")
+            data += more_data.decode('utf8')
+            lines = data.split("\n")
             for line in lines[:-1]:
                 parts = line.split("=")
-                key = parts[0].replace("'b'","") if len(parts) > 0 else None
-                value = parts[1].replace("'b'","") if len(parts) > 1 else None
+                key = parts[0] if len(parts) > 0 else None
+                value = parts[1] if len(parts) > 1 else None
                 handler(key, value)
             data = lines[-1]
 
@@ -151,8 +151,17 @@ def createSlideshow(
         )
         output = p.communicate()
 
+    with open('log.txt', 'w') as log:
+        log.write(output[0].decode('utf8')
+)
+
+    if music_path:
+        Path("new_audio.{ext}".format(ext=extension)).unlink()
+
     if p.returncode != 0:
-        sys.stderr.write(str(output[1]))
+        with open('errorlog.txt', 'w') as errorlog:
+            errorlog.write(output[1].decode('utf8')
+        sys.stderr.write("An error occurred. Please check errorlog.txt for details")
         sys.exit(1)
 
     # spinner = Spinner()
@@ -163,5 +172,3 @@ def createSlideshow(
     # except Exception as e:
     #     spinner.stop("Error: {}. Slideshow could not be created".format(e))
 
-    if music_path:
-        Path("new_audio.{ext}".format(ext=extension)).unlink()
