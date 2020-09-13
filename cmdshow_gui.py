@@ -18,7 +18,7 @@ class App:
         # self.root.geometry("800x500")
 
         self.imageDir = ""
-        self.outputDir = "output.mp4"
+        self.outputDir = "slideshow.mp4"
         self.audio = ""
         self.resolution = ""
         self.frameDuration = ""
@@ -267,7 +267,11 @@ class App:
             mode='r', filetypes=[('Audio Files', '*.wav')]).name
 
     def chooseOutDir(self):
-        self.outputDir = filedialog.askdirectory()
+        self.outputDir = filedialog.asksaveasfile(filetypes=[(
+            "Video Files", ".mp4")], defaultextension=[("Video Files", ".mp4")]).name
+        os.remove(self.outputDir)
+        if not self.outputDir.endswith(".mp4"):
+            self.outputDir += ".mp4"
 
 
 App()
