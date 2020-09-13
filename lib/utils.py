@@ -1,17 +1,33 @@
-import numpy as np
-import imagehash
-from PIL import Image
-from pathlib import Path
+import itertools
 import shutil
+import sys
+import threading
+import time
+from pathlib import Path
+
+import imagehash
+import numpy as np
+from PIL import Image
 
 
 def getImagesFromPath(imgPath):
+    """
+    Get all image files from given path
+
+    :param imgPath Path: Path to directory of images
+    """
     imgFormats = [".gif", ".tif", ".tiff", ".jpg", ".jpeg", ".bmp", ".png", ".eps"]
     directoryPath = Path(imgPath)
     return [f.resolve() for f in directoryPath.iterdir() if f.suffix in imgFormats]
 
 
 def orderImages(images, parameter="sim"):
+    """
+    Order images based on given parameter
+
+    :param images list(Path): List of paths to images
+    :param parameter str: Name of the ordering method to use. 'name' sorts alphabetically by name, 'sim' uses an image similarity measure to keep dissimilar images together (to avoid monotony)
+    """
     if parameter == "name":
         sorted_images = np.asarray(sorted(images, key=lambda x: x.stem))
     elif parameter == "sim":
@@ -55,6 +71,30 @@ def createDirectory(parent, child):
 def copyImagesToDirectory(images, ToPath):
     for img in images:
         shutil.copy(img, ToPath)
+
+
+class Spinner():
+    spinner_cycle = itertools.cycle(["-", "/", "|", "\\"])
+
+    def __init__(self):
+        self.stop_running = threading.Event()
+        self.spin_thread = threading.Thread(target=self.init_spin)
+
+    def start(self, message=""):
+        print(message, end=" ")
+        self.spin_thread.start()
+
+    def stop(self, message=""):
+        self.stop_running.set()
+        self.spin_thread.join()
+        print(message)
+
+    def init_spin(self):
+        while not self.stop_running.is_set():
+            sys.stdout.write(next(self.spinner_cycle))
+            sys.stdout.flush()
+            time.sleep(0.25)
+            sys.stdout.write("\b")
 
 
 """

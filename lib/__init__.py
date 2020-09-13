@@ -4,7 +4,7 @@ import ffmpeg
 
 from .sounds import createSoundEffect
 from .transitions import applyTransitions
-from .utils import getImagesFromPath, orderImages
+from .utils import Spinner, getImagesFromPath, orderImages
 
 
 def createSlideshow(
@@ -59,5 +59,9 @@ def createSlideshow(
     ).overwrite_output()
 
     ffmpeg.run(out)
+    spinner = Spinner()
+    spinner.start("Creating slideshow... ")
+    spinner.stop("Done! Created slideshow at {}".format(out_file))
+
     if music_path:
         Path("new_audio.{ext}".format(ext=extension)).unlink()
