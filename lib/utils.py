@@ -58,6 +58,12 @@ def orderImages(images, parameter="sim"):
 
 
 def createDirectory(parent, child):
+    """
+    Create a directory if it does not exist, and clear the directory if it does
+
+    :param parent [TODO:type]: [TODO:description]
+    :param child [TODO:type]: [TODO:description]
+    """
     directoryPath = Path(parent)
     tempPath = directoryPath / f"{child}"
     try:
