@@ -282,5 +282,6 @@ class App:
                 "Video Files", ".m4a"), ("Video Files", ".mov"), ("Video Files", ".ogg"), ("Video Files", ".webm")],
         ).name
         os.remove(self.outputDir)
+        print(self.outputDir)
 
 App()
