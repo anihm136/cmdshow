@@ -62,11 +62,12 @@ def applyTransitions(
     assert (
         transition_name in valid_transitions or transition_name == "random"
     ), "Invalid transition name"
+    assert (transition_duration < frame_duration), "Transition duration is too long for given frame duration"
 
     for file in image_paths:
         im_streams.append(ffmpeg.input(file, t=frame_duration, loop=1))
     filterset = []
-    offset_time = frame_duration - transition_duration / 2
+    offset_time = frame_duration - transition_duration
     for i in range(len(im_streams)):
         im_streams[i] = (
             im_streams[i]
@@ -99,6 +100,5 @@ def applyTransitions(
                 offset=offset_time,
             )
         )
-    # im_streams = transition_function(im_streams)
     concat_images = ffmpeg.concat(*filterset, v=1, a=0)
     return concat_images
